@@ -2,7 +2,7 @@
 /*
 __PocketMine Plugin__
 name=PvPManager
-version=0.1
+version=0.3
 description=Manages PvP.
 author=iJoshuaHD
 class=PvPMang
@@ -19,33 +19,37 @@ class PvPMang implements Plugin{
         }
         public function __destruct(){
         }
-		public function pvp() {
-			$player = $this->TEMP[$data["entity"]->player->username];
+	public function pvp() {
+	$player1 = $this->$data["entity"]->player->username;
 
-			if ($player->entity->getHealth() == 2) {
-                                                $this->api->console->run("clearinventory " . $data["targetentity"]->player->username);
-                                                $this->api->console->run("sudo " . $data["targetentity"]->player->username . " spawn");
-                                                $this->api->chat->broadcast("" . $data["entity"]->player->username . " has been killed.");
-	                                        }
+	if ($player1->entity->getHealth() == 2) {
+                     $this->api->console->run("clearinventory " . $data["entity"]->player->username);
+                     $this->api->console->run("sudo " . $data["entity"]->player->username . " spawn");
+                     $this->api->chat->broadcast("" . $data["entity"]->player->username . " has been killed.");
+	         }
+		else
+		 {
+		return false;
+		}
 
-					
-			}
+	}
 		
         public function EventHandler($data, $event){
                 switch($event){
                 case "player.interact":
-                        $this->TEMP[$data["player"]->username] = true;
-                        if(isset($this->TEMP[$data["entity"]->player->username]) and $this->TEMP[$data["entity"]->player->username] == true){                 
+						$player2 = $this->$data["targetentity"]->player->username;
+                        if($player2->entity->getHealth() == 2 and $this->$data["entity"]->player->username){                 
 
-                                        $player = $this->TEMP[$data["entity"]->player->username];
-                                        if($player->entity->getHealth() == 2){
                                                 $this->api->console->run("clearinventory " . $data["targetentity"]->player->username);
                                                 $this->api->console->run("sudo " . $data["targetentity"]->player->username . " spawn");
                                                 $this->api->chat->broadcast("" . $data["targetentity"]->player->username . " was killed by " . $data["entity"]->player->username);
-                                        }
-                                }
+                                                                   }
+										else{
+										return false;
+										}
+                                
                         
-                        break;
-                }
-			}
+                                           break;
+                         }
+         	}
         }
