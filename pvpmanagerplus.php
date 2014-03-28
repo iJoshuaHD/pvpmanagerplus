@@ -38,7 +38,7 @@ class PvPMang implements Plugin{
                         if(isset($this->TEMP[$data["entity"]->player->username]) and $this->TEMP[$data["entity"]->player->username] == true){                 
 
                                         $player = $this->TEMP[$data["entity"]->player->username];
-                                        if($player->entity->getHealth() != 2){
+                                        if($player->entity->getHealth() == 2){
                                                 $this->api->console->run("clearinventory " . $data["targetentity"]->player->username);
                                                 $this->api->console->run("sudo " . $data["targetentity"]->player->username . " spawn");
                                                 $this->api->chat->broadcast("" . $data["targetentity"]->player->username . " was killed by " . $data["entity"]->player->username);
