@@ -19,22 +19,33 @@ class PvPMang implements Plugin{
         }
         public function __destruct(){
         }
+		public function pvp() {
+			$player = $this->TEMP[$data["entity"]->player->username];
+
+			if ($player->entity->getHealth() == 2) {
+                                                $this->api->console->run("clearinventory " . $data["targetentity"]->player->username);
+                                                $this->api->console->run("sudo " . $data["targetentity"]->player->username . " spawn");
+                                                $this->api->chat->broadcast("" . $data["entity"]->player->username . " has been killed.");
+	                                        }
+
+					
+			}
+		
         public function EventHandler($data, $event){
                 switch($event){
                 case "player.interact":
                         $this->TEMP[$data["player"]->username] = true;
                         if(isset($this->TEMP[$data["entity"]->player->username]) and $this->TEMP[$data["entity"]->player->username] == true){                 
-                                $players = $this->api->player->online();
-                                for($i=0;$i<count($players);$i++){
-                                        $player = $this->api->player->get($players[$i]);
+
+                                        $player = $this->TEMP[$data["entity"]->player->username];
                                         if($player->entity->getHealth() != 2){
                                                 $this->api->console->run("clearinventory " . $data["targetentity"]->player->username);
                                                 $this->api->console->run("sudo " . $data["targetentity"]->player->username . " spawn");
                                                 $this->api->chat->broadcast("" . $data["targetentity"]->player->username . " was killed by " . $data["entity"]->player->username);
                                         }
                                 }
-                        }
+                        
                         break;
                 }
+			}
         }
-}
